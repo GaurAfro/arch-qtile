@@ -9,10 +9,10 @@
 # by Stephan Raabe (2023)
 # ------------------------------------------------------
 clear
-keyboardlayout="de-latin1"
-zoneinfo="Europe/Berlin"
+keyboardlayout="us"
+zoneinfo="Europe/Amsterdam"
 hostname="arch"
-username="raabe"
+username="gaurafro"
 
 # ------------------------------------------------------
 # Set System Time
@@ -24,7 +24,7 @@ hwclock --systohc
 # Update reflector
 # ------------------------------------------------------
 echo "Start reflector..."
-reflector -c "Germany," -p https -a 3 --sort rate --save /etc/pacman.d/mirrorlist
+reflector -c "Netherlands," -p https -a 3 --sort rate --save /etc/pacman.d/mirrorlist
 
 # ------------------------------------------------------
 # Synchronize mirrors

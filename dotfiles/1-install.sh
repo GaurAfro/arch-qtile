@@ -89,7 +89,7 @@ _installPackagesPacman() {
         toInstall+=("${pkg}");
     done;
 
-    if [[ "${toInstall[@]}" == "" ]] ; then
+    if [[ "${toInstall[*]}" == "" ]] ; then
         # echo "All pacman packages are already installed.";
         return;
     fi;
@@ -110,7 +110,7 @@ _installPackagesYay() {
         toInstall+=("${pkg}");
     done;
 
-    if [[ "${toInstall[@]}" == "" ]] ; then
+    if [[ "${toInstall[*]}" == "" ]] ; then
         # echo "All packages are already installed.";
         return;
     fi;

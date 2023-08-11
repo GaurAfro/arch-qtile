@@ -1,48 +1,71 @@
-# dotfiles
+# Arch Install Script with btrfs for Timeshift or snapper
 
-This is the configuration of my Arch linux based installation.
+This is a bash based Arch Linux installation script with EFI boot loader and btrfs partition prepared for Timeshift or snapper.
 
-- Window Manager: qtile
-- Compositor: picom
-- Terminal: alacritty
-- Editor: nvim
-- Prompt: starship
-- Bar: polybar
-- Icons: Font Awesome
-- Menus: Rofi
-- Colorscheme: pywal (dynamic)
-- Browser: brave
-- Filemanager: ranger, Thunar
-- Screenshots: scrot
-- Cursor: Bibata Modern Classic
-- Icons: breeze-dark
-- Theme: Breeze-dark
-- Virtual Machine: qemu (Windows 11 with looking glass and xrdp)
+[![Watch on YouTube](https://img.youtube.com/vi/uskzgcyGAOE/0.jpg)](https://www.youtube.com/watch?v=uskzgcyGAOE)
 
-Please also see the script folder how I setup my system.
-
-Included is a pywal configuration that changes the color scheme based on a randomly selected wallpaper. Just type w in a terminal (or SuperKey + Shift + w). SuperKey + Ctrl + w opens rofi with a list of installed wallpapers for individual selection. See also the .bashrc for more alias definitions.
-
-## Screenshots & Video
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=WHxgeWzGoBY" target="_blank"><img src="screenshots/screenshot_play_button.png" alt="Click to watch on YouTube" /></a>
-
-You can find more screenshots in the screenshots folder.
+Install Arch Linux YOUR WAY. Arch Linux Installation 2023
+https://youtu.be/uskzgcyGAOE
 
 ## Getting started
 
-To make it easy for you to get started with my dotfiles, here's a list of recommended next steps.
+To make it easy for you to get started, here's a list of recommended next steps. 
+The script will ask for some information during the installation but is not performing any validation check so far.
+To get detailed information how to install Arch Linux, please visit https://wiki.archlinux.org/title/installation_guide
+
 
 ```
-# Clone the repository
-git clone https://gitlab.com/stephan-raabe/dotfiles.git
+# Load keyboard layout (replace de with us, fr, es if needed)
+loadkeys de-latin1
 
-# Install or update all required packages and install dotfiles
+# Increase font size (optional)
+setfont ter-p20b
+
+# Connect to WLAN (if not LAN)
+iwctl --passphrase [password] station wlan0 connect [network]
+
+# Check internet connection
+ping -c4 www.archlinux.org
+
+# Check partitions
+lsblk
+
+# Create partitions
+gdisk /dev/sda
+# Partition 1: +512M ef00 (for EFI)
+# Partition 2: Available space 8300 (for Linux filesystem)
+# (Optional Partition 3 for Virtual Machines)
+# Write w, Confirm Y
+
+# Sync package
+pacman -Syy
+
+# Maybe it's required to install the current archlinux keyring
+# if the installation of git fails.
+pacman -S archlinux-keyring
+pacman -Syy
+
+# Install git
+pacman -S git
+
+# Clone Installation
+git clone https://gitlab.com/stephan-raabe/archinstall.git
+cd archinstall
+
+# Start the script
 ./1-install.sh
 
-# Install qtile window manager
-./2-qtile.sh
-
 ```
 
+## Additional information
 
+Please note that the scripts in folder /optional are not tested yet.
+
+After the installation you will find additional scripts in your home folder to install
+
+- yay aur helper
+- zram swap file
+- timeshift snapshots
+- preload application cache
+
+Please also check out the dotfiles to configure qtile and several other applications.
