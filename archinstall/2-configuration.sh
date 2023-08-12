@@ -117,6 +117,7 @@ cp /archinstall/3-yay.sh /home/$username
 cp /archinstall/4-zram.sh /home/$username
 cp /archinstall/5-timeshift.sh /home/$username
 cp /archinstall/6-preload.sh /home/$username
+cp /archinstall/7-kvm.sh /home/$username
 cp /archinstall/snapshot.sh /home/$username
 
 clear
