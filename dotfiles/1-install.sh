@@ -151,35 +151,53 @@ fi
 echo ""
 echo "-> Install symbolic links"
 
-_installSymLink() {
+_createSymLink() {
     symlink="$1";
     linksource="$2";
     linktarget="$3";
     if [ -L "${symlink}" ]; then
-        echo "Link ${symlink} exists already."
+        _handleExistingLink "${symlink}"
     else
         if [ -d ${symlink} ]; then
-            echo "Directory ${symlink}/ exists."
+            _handleExistingDirectory "${symlink}"
         else
             if [ -f ${symlink} ]; then
-                echo "File ${symlink} exists."
+                _handleExistingFile "${symlink}"
             else
-                ln -s ${linksource} ${linktarget} 
-                echo "Link ${linksource} -> ${linktarget} created."
+                _createLink "${linksource}" "${linktarget}"
             fi
         fi
     fi
 }
 
-_installSymLink ~/.config/qtile ~/dotfiles/qtile/ ~/.config
-_installSymLink ~/.config/alacritty ~/dotfiles/alacritty/ ~/.config
-_installSymLink ~/.config/picom ~/dotfiles/picom/ ~/.config
-_installSymLink ~/.config/rofi ~/dotfiles/rofi/ ~/.config
-_installSymLink ~/.config/vim ~/dotfiles/vim/ ~/.config
-_installSymLink ~/.config/nvim ~/dotfiles/nvim/ ~/.config
-_installSymLink ~/.config/polybar ~/dotfiles/polybar/ ~/.config
-_installSymLink ~/.config/dunst ~/dotfiles/dunst/ ~/.config
-_installSymLink ~/.config/starship.toml ~/dotfiles/starship/starship.toml ~/.config/starship.toml
+_handleExistingLink() {
+    echo "Link ${symlink} exists already."
+    rm -f "${symlink}" && echo "Link ${symlink} removed."
+}
+
+_handleExistingDirectory() {
+    echo "Directory ${symlink}/ exists."
+    mv -v -r "${symlink}" "${symlink}".bak && echo "Directory ${symlink}/ renamed to ${symlink}.bak"
+}
+
+_handleExistingFile() {
+    echo "File ${symlink} exists."
+    mv -v "${symlink}" "${symlink}".bak && echo "File ${symlink} renamed to ${symlink}.bak"
+}
+
+_createLink() {
+    ln -s -p "${linksource}" "${linktarget}" 
+    echo "Link ${linksource} -> ${linktarget} created."
+}
+_createSymLink ~/.config/qtile ~/arch-qtile/dotfiles/qtile/ ~/.config
+_createSymLink ~/.config/alacritty ~/arch-qtile/dotfiles/alacritty/ ~/.config
+_createSymLink ~/.config/picom ~/arch-qtile/dotfiles/picom/ ~/.config
+_createSymLink ~/.config/rofi ~/arch-qtile/dotfiles/rofi/ ~/.config
+_createSymLink ~/.config/vim ~/arch-qtile/dotfiles/vim/ ~/.config
+_createSymLink ~/.config/nvim ~/arch-qtile/dotfiles/nvim/ ~/.config
+_createSymLink ~/.config/polybar ~/arch-qtile/dotfiles/polybar/ ~/.config
+_createSymLink ~/.config/dunst ~/arch-qtile/dotfiles/dunst/ ~/.config
+_createSymLink ~/.config/starship.toml ~/arch-qtile/dotfiles/starship/starship.toml ~/.config/starship.toml
 
 # ------------------------------------------------------
 # Install .bashrc
